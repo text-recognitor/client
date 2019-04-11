@@ -1,4 +1,5 @@
 const INITIAL = 0, SAVING = 1, SUCCESS = 2, FAILED = 3;
+const baseURL = "http://localhost:3000"
 
 Vue.component('upload-form', {
     data() {
@@ -6,7 +7,8 @@ Vue.component('upload-form', {
         uploadedFile: null,
         uploadError: null,
         currentStatus: null,
-        uploadFieldName: 'image'
+        uploadFieldName: 'image',
+        image: ""
       }
     },
     computed: {
@@ -32,6 +34,17 @@ Vue.component('upload-form', {
       },
       save(formData) {
         this.currentStatus = SAVING;
+        axios.post(`${baseURL}/pictures`, {
+          data: {
+            formData
+          },
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        })
         console.log(`upload event arrived....`);
       },
       onFileChange(fieldName, fileList) {
@@ -40,7 +53,11 @@ Vue.component('upload-form', {
         Array
           .from(Array(fileList.length).keys())
           .map(x => {
-            formData.append(fieldName, fileList[x], fileList[x].name);
+            console.log(fieldName, "<= fieldName");
+            console.log(fileList[x], "<= fileList[x]");
+            console.log(fileList[x].name, "<= fileList[x].name");
+            // formData.append(fieldName, fileList[x], fileList[x].name);
+            formData.append("image", fileList[x])
           });
         // save it
         this.save(formData);
