@@ -55,12 +55,11 @@ Vue.component('upload-form', {
         `
     <div class="container">
         <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-            <h1 style="margin-bottom: 20px;">Upload Image</h1>
-            <div class="dropbox">
+            <div class="dropbox mt-4">
             <input type="file" multiple @change="onFileChange($event.target.name, $event.target.files)"
                 accept="image/*" class="input-file">
                 <p v-if="isInitial">
-                Drag your file(s) here to begin<br> or click to browse
+                Drag a photo with text on it...
                 </p>
                 <p v-if="isSaving">
                     Uploading files...
@@ -71,7 +70,7 @@ Vue.component('upload-form', {
         <div v-if="isSuccess">
             <h2>Uploaded file: {{ uploadedFile }} successfully.</h2>
             <p>
-            <a href="javascript:void(0)" @click="reset()">Upload again</a>
+            <a href="javascript:void(0)" @click="reset()">Please upload again</a>
             </p>
             <img :src="uploadedFile.url" class="img-responsive img-thumbnail" :alt="uploadedFile.originalName">
         </div>

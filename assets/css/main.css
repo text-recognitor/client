@@ -1,5 +1,47 @@
-.header {
-    background: rgba(0, 0, 0, 0)   
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Cabin');
+@import url('https://fonts.googleapis.com/css?family=Overpass');
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background: linear-gradient(to bottom left, #13547a, #80d0c7) fixed;
+}
+
+.cabin {
+  font-family: 'Cabin', sans-serif;
+}
+
+.overpass {
+  font-family: 'Overpass', sans-serif;
+}
+
+/* .container {
+  position: relative;
+  height: 14rem;
+  border: 1px solid;
+}
+
+.x-y-centered {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border: none;
+} */
+
+.quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.open-sans {
+  font-family: 'Open Sans', sans-serif;
 }
 
 .container-fluid {
@@ -44,28 +86,22 @@
     position: relative;
     top: -50px;
 }
-section {
-    min-height: 700px;
-    padding-top: 40px;
-    justify-content: center;
-}
 
 
 /***********  FILE UPLOAD Style *******************/
 .dropbox {
-    outline: 2px dashed grey;
+    outline: 2px dashed #13547a;
     outline-offset: -10px;
-    background: rgb(201, 253, 255);
-    color: dimgray;
+    background: #62bac6;
+    color: white;
     padding: 10px 10px;
-    min-height: 200px;
+    min-height: 185px;
     position: relative;
     cursor: pointer;
   }
 
   .input-file {
-    opacity: 0; 
-    width: 100%;
+    opacity: 0;
     height: 200px;
     position: absolute;
     cursor: pointer;
