@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Cabin');
+@import url('https://fonts.googleapis.com/css?family=Overpass');
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background: linear-gradient(to bottom left, #13547a, #80d0c7) fixed;
+}
+
+.cabin {
+  font-family: 'Cabin', sans-serif;
+}
+
+.overpass {
+  font-family: 'Overpass', sans-serif;
+}
+
+/* .container {
+  position: relative;
+  height: 14rem;
+  border: 1px solid;
+}
+
+.x-y-centered {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border: none;
+} */
+
+.quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.open-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+}
+.carousel-control-prev {
+    height: auto;
+}
+
+.header {
+    padding: 5px 15px;
+    position: relative;
+    top: 0px;
+    font-family: 'Abril Fatface';
+    font-size: 1.6em;
+    text-shadow: 1px 1px 1px black;
+    top: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+}
+
+.accountNav {
+    position: absolute;
+    right: 50px;
+}
+
+.navItem {
+    color: white;
+    font-weight: 700;
+    padding-left: 15px;
+}
+
+.navItem:hover {
+    color: rgb(248, 244, 4);
+    text-decoration: none;
+}
+.slides {
+    position: relative;
+    top: -50px;
+}
+
+
+/***********  FILE UPLOAD Style *******************/
+.dropbox {
+    outline: 2px dashed #13547a;
+    outline-offset: -10px;
+    background: #62bac6;
+    color: white;
+    padding: 10px 10px;
+    min-height: 185px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .input-file {
+    opacity: 0;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .dropbox:hover {
+    background: lightblue;
+  }
+
+  .dropbox p {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 50px 0;
+  }
+
