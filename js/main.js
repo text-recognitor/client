@@ -1,7 +1,7 @@
 Vue.config.devtools = true
 
 var poemApp = new Vue({
-    el: '#poemApp',
+    el: '#app',
     data: {
         isLoggedIn: false,
         inputFile: null,
