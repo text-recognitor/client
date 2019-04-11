@@ -4,7 +4,8 @@ var poemApp = new Vue({
     el: '#poemApp',
     data: {
         isLoggedIn: false,
-        inputFile: null
+        inputFile: null,
+        allUserInput : ['a','a','a','a','a']
     },
     methods: {
         uploadImage: function() {
