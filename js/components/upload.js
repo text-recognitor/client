@@ -2,13 +2,15 @@ const INITIAL = 0, SAVING = 1, SUCCESS = 2, FAILED = 3;
 const baseURL = "http://localhost:3000"
 
 Vue.component('upload-form', {
+    pros: ["allPictures"],
     data() {
       return {
         uploadedFile: null,
         uploadError: null,
         currentStatus: null,
         uploadFieldName: 'image',
-        image: ""
+        image: "",
+        currentImageURL : ""
       }
     },
     computed: {
@@ -42,7 +44,7 @@ Vue.component('upload-form', {
           }
         })
         .then(({ data }) => {
-          return axios.post(`${baseURL}/analyze`, 
+          return axios.post(`${baseURL}/analyze`,
             {
               imgURL: data.imgURL
             })
@@ -55,25 +57,35 @@ Vue.component('upload-form', {
             title: 'Sweet!',
             text: `${data.imgText}`,
             imageUrl: `${data.imgURL}`,
-            imageWidth: 400,
-            imageHeight: 200,
             imageAlt: 'analyzed image',
             animation: false,
             confirmButtonText: "OK"
           })
           .then(result => {
+            this.currentImageURL = data.imgURL
             if (result.value) {
-              
+              this.$emit("add-new-picture", {
+                imgURL: data.imgURL,
+                imgText: data.imgText
+              })
+
+              return axios.patch(`${baseURL}/pictures`, {
+                imgURL: data.imgURL,
+                imgText: data.imgText
+              })
             }
           })
-          this.currentStatus = INITIAL
-          console.log(response, "<= ini response abis analyze");
+
+        })
+        .then(({ data }) => {
+          console.log(data);
         })
         .catch(err => {
           console.log(err);
         })
       },
       onFileChange(fieldName, fileList) {
+        this.currentStatus = INITIAL
         const formData = new FormData();
         if (!fileList.length) return;
         Array
@@ -124,7 +136,7 @@ Vue.component('upload-form', {
             <input type="file" multiple @change="onFileChange($event.target.name, $event.target.files)"
                 accept="image/*" class="input-file">
                 <p v-if="isInitial">
-                Drag a photo with text on it...
+                Drag a photo
                 </p>
                 <p v-if="isSaving">
                     Uploading files...

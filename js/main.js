@@ -5,41 +5,29 @@ var poemApp = new Vue({
     data: {
         isLoggedIn: false,
         inputFile: null,
-        allPictures : [{
-            imgURL : "https://storage.googleapis.com/textrecognitor/1554999826733sample.jpeg",
-            imgText : 'Haasdfagdhbwufhijowerj ckjernjciervjernjverjvnerivu3r9j3ro'
-        }, {
-            imgURL : "https://storage.googleapis.com/textrecognitor/1554999826733sample.jpeg",
-            imgText : 'Hao'
-        }, {
-            imgURL : "https://storage.googleapis.com/textrecognitor/1554999826733sample.jpeg",
-            imgText : 'Hao'
-        }, {
-            imgURL : "https://storage.googleapis.com/textrecognitor/1554999826733sample.jpeg",
-            imgText : 'Hao'
-        }, {
-            imgURL : "https://storage.googleapis.com/textrecognitor/1554999826733sample.jpeg",
-            imgText : 'Hao'
-        }, {
-            imgURL : "https://storage.googleapis.com/textrecognitor/1554999826733sample.jpeg",
-            imgText : 'Hao'
-        }]
+        allPictures : []
     },
     methods: {
         uploadImage: function() {
             console.log(`enter file upload..`);
         },
-    },
-    created : {
+        addNewPicture(picture) {
+          this.allPictures.push(picture)
+        },
         fetchAllData() {
             axios.get(`${baseURL}/pictures`)
             .then((response) => {
-                response.data = allPictures
+              console.log(response.data);
+              this.allPictures = response.data
             })
             .catch(err => {
-              swal("Something is wrong", "Please reload the page", "error")
+              console.log(err);
+              // swal("Something is wrong", "Please reload the page", "error")
             })
         }
+    },
+    created() {
+      this.fetchAllData();
     }
     
 })
