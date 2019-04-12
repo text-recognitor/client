@@ -33,11 +33,13 @@ Vue.component('upload-form', {
         this.uploadError = null;
       },
       save(formData) {
+
+        console.log(formData.get("image"), "<= formdata get");
         this.currentStatus = SAVING;
-        axios.post(`${baseURL}/pictures`, {
-          data: {
-            formData
-          },
+        axios.post(`${baseURL}/pictures`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
         .then(response => {
           console.log(response);
@@ -53,9 +55,6 @@ Vue.component('upload-form', {
         Array
           .from(Array(fileList.length).keys())
           .map(x => {
-            console.log(fieldName, "<= fieldName");
-            console.log(fileList[x], "<= fileList[x]");
-            console.log(fileList[x].name, "<= fileList[x].name");
             // formData.append(fieldName, fileList[x], fileList[x].name);
             formData.append("image", fileList[x])
           });
@@ -70,7 +69,7 @@ Vue.component('upload-form', {
     },
     template:
         `
-    <div class="container">
+    <div class="container" data-aos="zoom-in" data-aos-duration="1400" data-aos-delay="1000">
         <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
             <div class="dropbox mt-4">
             <input type="file" multiple @change="onFileChange($event.target.name, $event.target.files)"
