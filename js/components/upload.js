@@ -1,4 +1,5 @@
 const INITIAL = 0, SAVING = 1, SUCCESS = 2, FAILED = 3;
+const baseURL = "http://localhost:3000"
 
 Vue.component('upload-form', {
     data() {
@@ -6,7 +7,8 @@ Vue.component('upload-form', {
         uploadedFile: null,
         uploadError: null,
         currentStatus: null,
-        uploadFieldName: 'image'
+        uploadFieldName: 'image',
+        image: ""
       }
     },
     computed: {
@@ -31,7 +33,20 @@ Vue.component('upload-form', {
         this.uploadError = null;
       },
       save(formData) {
+
+        console.log(formData.get("image"), "<= formdata get");
         this.currentStatus = SAVING;
+        axios.post(`${baseURL}/pictures`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        })
         console.log(`upload event arrived....`);
       },
       onFileChange(fieldName, fileList) {
@@ -40,7 +55,8 @@ Vue.component('upload-form', {
         Array
           .from(Array(fileList.length).keys())
           .map(x => {
-            formData.append(fieldName, fileList[x], fileList[x].name);
+            // formData.append(fieldName, fileList[x], fileList[x].name);
+            formData.append("image", fileList[x])
           });
         // save it
         this.save(formData);
@@ -53,7 +69,7 @@ Vue.component('upload-form', {
     },
     template:
         `
-    <div class="container">
+    <div class="container" data-aos="zoom-in" data-aos-duration="1400" data-aos-delay="1000">
         <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
             <div class="dropbox mt-4">
             <input type="file" multiple @change="onFileChange($event.target.name, $event.target.files)"
