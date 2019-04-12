@@ -117,3 +117,6 @@ body {
     padding: 50px 0;
   }
 
+#display-card {
+  opacity: 0.7;
+}

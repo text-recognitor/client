@@ -1,18 +1,18 @@
 Vue.component('image-card', {
-    props : ["allUserInput"]
-    , methods : {
-        // fetchAllData() {
-        //     axios.get(`${baseURL}/images`)
-        // }
-
+    props : ["allPictures"], 
+    filters: {
+      truncate: function (text, length, suffix) {
+        if (text.length > 15) {
+          return text.substring(0, length) + suffix;
+        } else return text
+      }
     },
-    template : 
-    `<div>
-    <div class="mt-4 row">
-    <div v-for="i in 3" class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
+    template :`<div>
+    <div class="mt-4 row justify-content-center" >
+    <div id="display-card" v-for="picture in allPictures" class="card mx-2 mt-2" style="width: 18rem;">
+    <img v-bind:src="picture.imgURL" class="card-img-top" alt="">
     <div class="card-body">
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      {{ picture.imgText | truncate(15, '...')  }}
     </div>
     </div>
   </div>
