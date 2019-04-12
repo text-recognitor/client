@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <title>Convolute</title>
+    <title>Convix | Convert Image from Text</title>
   </head>
 
   <body>
@@ -18,15 +18,17 @@
         <div class="row mt-4">
           <div class="col text-center">
             <h1 style="font-size: 6rem" class="quicksand tlt" data-aos="zoom-out" data-aos-duration="1500">Convix</h1>
-            <h3 class="overpass" style="font-size: 2rem; letter-spacing: 2px;"  data-aos="zoom-out" data-aos-duration="1500" data-aos-delay="300">Intelligent text recognitor</h3>
-            <p class="opensans"  data-aos="flip-up" data-aos-duration="1500" data-aos-delay="800">Ever had a time when you cannot rid your colleague's post it notes?<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+            <h3 class="overpass" style="font-size: 2.2rem; letter-spacing: 1.9px;"  data-aos="zoom-out" data-aos-duration="1500" data-aos-delay="300">Intelligent text recognitor</h3>
+            <p class="opensans mt-3" data-aos="flip-up" data-aos-duration="1500" data-aos-delay="800">
+              Afraid of someone getting insulted when you ask what they write?<br>
+              <span style="font-size: 1.3rem;">Convix comes to the rescue!</span></p>
           </div>
         </div>
 
         <div class="row">
           <div class="col text-center">
             <section id="upload">
-                <upload-form></upload-form>
+                <upload-form v-on:add-new-picture="addNewPicture"></upload-form>
             </section>
           </div>
         </div>
@@ -34,6 +36,8 @@
       <image-card v-bind:all-pictures="allPictures"></image-card>
     </div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>

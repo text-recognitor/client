@@ -2,13 +2,15 @@ const INITIAL = 0, SAVING = 1, SUCCESS = 2, FAILED = 3;
 const baseURL = "http://localhost:3000"
 
 Vue.component('upload-form', {
+    pros: ["allPictures"],
     data() {
       return {
         uploadedFile: null,
         uploadError: null,
         currentStatus: null,
         uploadFieldName: 'image',
-        image: ""
+        image: "",
+        currentImageURL : ""
       }
     },
     computed: {
@@ -41,15 +43,49 @@ Vue.component('upload-form', {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(response => {
-          console.log(response);
+        .then(({ data }) => {
+          return axios.post(`${baseURL}/analyze`,
+            {
+              imgURL: data.imgURL
+            })
+          // data.imgURL
+          // Munculin modal di sini
+          // console.log(data, "<= ini response client");
+        })
+        .then(({ data }) => {
+          Swal.fire({
+            title: 'Sweet!',
+            text: `${data.imgText}`,
+            imageUrl: `${data.imgURL}`,
+            imageAlt: 'analyzed image',
+            animation: false,
+            confirmButtonText: "OK"
+          })
+          .then(result => {
+            this.currentImageURL = data.imgURL
+            if (result.value) {
+              this.$emit("add-new-picture", {
+                imgURL: data.imgURL,
+                imgText: data.imgText
+              })
+
+              return axios.patch(`${baseURL}/pictures`, {
+                imgURL: data.imgURL,
+                imgText: data.imgText
+              })
+            }
+          })
+
+        })
+        .then(({ data }) => {
+          console.log(data);
         })
         .catch(err => {
           console.log(err);
         })
-        console.log(`upload event arrived....`);
       },
       onFileChange(fieldName, fileList) {
+        this.currentStatus = INITIAL
         const formData = new FormData();
         if (!fileList.length) return;
         Array
@@ -58,10 +94,35 @@ Vue.component('upload-form', {
             // formData.append(fieldName, fileList[x], fileList[x].name);
             formData.append("image", fileList[x])
           });
+
+        let timerInterval;
+        Swal.fire({
+          title: 'Processing image...',
+          html: '<strong></strong> seconds.',
+          timer: 15000,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            timerInterval = setInterval(() => {
+              Swal.getContent().querySelector('strong')
+                .textContent = (Swal.getTimerLeft() / 1000)
+                .toFixed(0)
+            }, 100)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          if (
+            // Read more about handling dismissals
+            result.dismiss === Swal.DismissReason.timer
+          ) {
+            console.log('I was closed by the timer')
+          }
+        })
+
         // save it
         this.save(formData);
       },
-
     },
     created() {
       console.log(`created...`);
@@ -75,7 +136,7 @@ Vue.component('upload-form', {
             <input type="file" multiple @change="onFileChange($event.target.name, $event.target.files)"
                 accept="image/*" class="input-file">
                 <p v-if="isInitial">
-                Drag a photo with text on it...
+                Drag a photo
                 </p>
                 <p v-if="isSaving">
                     Uploading files...
