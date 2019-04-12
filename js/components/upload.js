@@ -41,13 +41,37 @@ Vue.component('upload-form', {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(response => {
-          console.log(response);
+        .then(({ data }) => {
+          return axios.post(`${baseURL}/analyze`, 
+            {
+              imgURL: data.imgURL
+            })
+          // data.imgURL
+          // Munculin modal di sini
+          // console.log(data, "<= ini response client");
+        })
+        .then(({ data }) => {
+          Swal.fire({
+            title: 'Sweet!',
+            text: `${data.imgText}`,
+            imageUrl: `${data.imgURL}`,
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'analyzed image',
+            animation: false,
+            confirmButtonText: "OK"
+          })
+          .then(result => {
+            if (result.value) {
+              
+            }
+          })
+          this.currentStatus = INITIAL
+          console.log(response, "<= ini response abis analyze");
         })
         .catch(err => {
           console.log(err);
         })
-        console.log(`upload event arrived....`);
       },
       onFileChange(fieldName, fileList) {
         const formData = new FormData();
@@ -58,10 +82,35 @@ Vue.component('upload-form', {
             // formData.append(fieldName, fileList[x], fileList[x].name);
             formData.append("image", fileList[x])
           });
+
+        let timerInterval;
+        Swal.fire({
+          title: 'Processing image...',
+          html: '<strong></strong> seconds.',
+          timer: 15000,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            timerInterval = setInterval(() => {
+              Swal.getContent().querySelector('strong')
+                .textContent = (Swal.getTimerLeft() / 1000)
+                .toFixed(0)
+            }, 100)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          if (
+            // Read more about handling dismissals
+            result.dismiss === Swal.DismissReason.timer
+          ) {
+            console.log('I was closed by the timer')
+          }
+        })
+
         // save it
         this.save(formData);
       },
-
     },
     created() {
       console.log(`created...`);
